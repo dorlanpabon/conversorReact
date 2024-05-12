@@ -21,14 +21,19 @@ function App() {
   }
 
   //Funcion para ingresar al dar click en el botón
-  function ingresar() {
+  async function ingresar() {
     console.log('Usuario:', usuario)
     console.log('Clave:', clave)
-    if (usuario === 'admin' && clave === 'admin') { //Si el usuario y la clave son admin
-      alert("Datos correctos")
-      setLogueado(true)
-    } else { //Si el usuario y la clave no son admin
-      alert("Datos incorrectos")
+    try {
+      // Peticion al servidor backend, para verificar si el usuario y la clave son correctos
+      const peticion = await fetch('http://localhost:3000/login?usuario=' + usuario + '&clave=' + clave)
+      if (peticion.ok) {
+        setLogueado(true)
+      } else {
+        alert('Datos incorrectos')
+      }
+    } catch (error) {
+      alert('Datos incorrectos')
     }
   }
 
